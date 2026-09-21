@@ -1,0 +1,25 @@
+{
+    "name": "HouseEscape.Infrastructure.Editor",
+    "rootNamespace": "HouseEscape.Infrastructure.Editor",
+    "references": [
+        "HouseEscape.Infrastructure",
+        "HouseEscape.LocalMultiplayer",
+        "HouseEscape.Networking",
+        "HouseEscape.Presentation",
+        "Unity.Netcode.Runtime",
+        "Unity.TextMeshPro",
+        "Unity.InputSystem",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

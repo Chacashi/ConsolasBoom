@@ -1,0 +1,27 @@
+{
+    "name": "HouseEscape.Timeline.PlayModeTests",
+    "rootNamespace": "HouseEscape.Tests.PlayMode",
+    "references": [
+        "HouseEscape.Core",
+        "HouseEscape.Infrastructure",
+        "HouseEscape.LocalMultiplayer",
+        "HouseEscape.Networking",
+        "HouseEscape.Presentation",
+        "Unity.Netcode.Runtime",
+        "Unity.InputSystem",
+        "Unity.InputSystem.TestFramework",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false,
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ]
+}

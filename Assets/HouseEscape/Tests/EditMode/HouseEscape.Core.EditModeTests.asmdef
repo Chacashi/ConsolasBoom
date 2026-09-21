@@ -1,0 +1,22 @@
+{
+    "name": "HouseEscape.Core.EditModeTests",
+    "rootNamespace": "HouseEscape.Tests.EditMode",
+    "references": [
+        "HouseEscape.Core",
+        "HouseEscape.Presentation"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false,
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ]
+}

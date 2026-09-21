@@ -1,0 +1,20 @@
+{
+    "name": "HouseEscape.Infrastructure",
+    "rootNamespace": "HouseEscape.Infrastructure",
+    "references": [
+        "HouseEscape.Core",
+        "HouseEscape.Networking",
+        "HouseEscape.LocalMultiplayer",
+        "HouseEscape.Presentation",
+        "Unity.Netcode.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

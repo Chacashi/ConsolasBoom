@@ -1,0 +1,17 @@
+{
+    "name": "HouseEscape.Networking",
+    "rootNamespace": "HouseEscape.Networking",
+    "references": [
+        "HouseEscape.Core",
+        "Unity.Netcode.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
