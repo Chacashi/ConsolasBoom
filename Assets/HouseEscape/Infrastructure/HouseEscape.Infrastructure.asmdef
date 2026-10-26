@@ -3,6 +3,7 @@
     "rootNamespace": "HouseEscape.Infrastructure",
     "references": [
         "HouseEscape.Core",
+        "HouseEscape.Gameplay",
         "HouseEscape.Networking",
         "HouseEscape.LocalMultiplayer",
         "HouseEscape.Presentation",

@@ -92,6 +92,28 @@ namespace HouseEscape.Networking.Participants
             return false;
         }
 
+        public bool TryGetParticipant(ParticipantId participantId, out ParticipantRecord participant)
+        {
+            for (int index = 0; index < _participants.Count; index++)
+            {
+                NetworkParticipantRecord record = _participants[index];
+                if (record.ParticipantId == participantId.Value)
+                {
+                    participant = record.ToCoreRecord();
+                    return true;
+                }
+            }
+
+            participant = default;
+            return false;
+        }
+
+        public bool IsParticipantOwnedBy(ParticipantId participantId, ulong ownerClientId)
+        {
+            return TryGetParticipant(participantId, out ParticipantRecord participant)
+                && participant.OwnerClientId == ownerClientId;
+        }
+
         public IReadOnlyList<ParticipantRecord> GetSnapshot()
         {
             var snapshot = new ParticipantRecord[_participants.Count];

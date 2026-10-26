@@ -1,0 +1,16 @@
+{
+    "name": "HouseEscape.Gameplay",
+    "rootNamespace": "HouseEscape.Gameplay",
+    "references": [
+        "HouseEscape.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

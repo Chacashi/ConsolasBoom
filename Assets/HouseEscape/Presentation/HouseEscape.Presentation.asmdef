@@ -3,6 +3,7 @@
     "rootNamespace": "HouseEscape.Presentation",
     "references": [
         "HouseEscape.Core",
+        "HouseEscape.Gameplay",
         "Unity.TextMeshPro",
         "UnityEngine.UI"
     ],

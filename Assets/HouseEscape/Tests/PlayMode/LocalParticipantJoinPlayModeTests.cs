@@ -123,6 +123,43 @@ namespace HouseEscape.Tests.PlayMode
             Assert.That(_contexts[2].IsPairedTo(replacement), Is.False);
         }
 
+        [UnityTest]
+        public IEnumerator MoveAndLookAreRoutedIndependentlyAndDeviceLossClearsBoth()
+        {
+            Gamepad first = InputSystem.AddDevice<Gamepad>();
+            Gamepad second = InputSystem.AddDevice<Gamepad>();
+            Press(first.startButton);
+            Release(first.startButton);
+            yield return null;
+            Press(second.startButton);
+            Release(second.startButton);
+            yield return null;
+
+            Set(first.leftStick, new Vector2(0.75f, -0.25f));
+            Set(first.rightStick, new Vector2(-0.5f, 0.9f));
+            Set(second.leftStick, new Vector2(-0.2f, 0.4f));
+            Set(second.rightStick, new Vector2(0.3f, -0.7f));
+            yield return null;
+
+            Assert.That(_contexts[0].Move, Is.EqualTo(first.leftStick.ReadValue()));
+            Assert.That(_contexts[0].Look, Is.EqualTo(first.rightStick.ReadValue()));
+            Assert.That(_contexts[1].Move, Is.EqualTo(second.leftStick.ReadValue()));
+            Assert.That(_contexts[1].Look, Is.EqualTo(second.rightStick.ReadValue()));
+
+            Press(first.buttonSouth);
+            yield return null;
+            Assert.That(_contexts[0].IsInteractHeld, Is.True);
+            Assert.That(_contexts[1].IsInteractHeld, Is.False);
+
+            InputSystem.RemoveDevice(first);
+            yield return null;
+            Assert.That(_contexts[0].Move, Is.EqualTo(Vector2.zero));
+            Assert.That(_contexts[0].Look, Is.EqualTo(Vector2.zero));
+            Assert.That(_contexts[0].IsInteractHeld, Is.False, "Device loss counts as releasing the hold.");
+            Assert.That(_contexts[1].Move, Is.Not.EqualTo(Vector2.zero));
+            Assert.That(_contexts[1].Look, Is.Not.EqualTo(Vector2.zero));
+        }
+
         [Test]
         public void ViewportLayoutUsesFullVerticalHalvesAndThreePlayerEmptyFourthQuadrant()
         {
@@ -142,6 +179,26 @@ namespace HouseEscape.Tests.PlayMode
             InputAction navigate = map.AddAction("Navigate", InputActionType.Value);
             navigate.expectedControlType = "Vector2";
             navigate.AddBinding("<Gamepad>/leftStick");
+            InputAction move = map.AddAction(LocalParticipantContext.MoveActionName, InputActionType.Value);
+            move.expectedControlType = "Vector2";
+            move.AddBinding("<Gamepad>/leftStick");
+            InputAction look = map.AddAction(LocalParticipantContext.LookActionName, InputActionType.Value);
+            look.expectedControlType = "Vector2";
+            look.AddBinding("<Gamepad>/rightStick");
+            map.AddAction(LocalParticipantContext.InteractActionName, InputActionType.Button)
+                .AddBinding("<Gamepad>/buttonSouth");
+            map.AddAction(LocalParticipantContext.SpectateNextActionName, InputActionType.Button)
+                .AddBinding("<Gamepad>/buttonSouth");
+            map.AddAction(LocalParticipantContext.RunActionName, InputActionType.Button)
+                .AddBinding("<Gamepad>/leftStickPress");
+            map.AddAction(LocalParticipantContext.SelectPreviousItemActionName, InputActionType.Button)
+                .AddBinding("<Gamepad>/dpad/left");
+            map.AddAction(LocalParticipantContext.SelectNextItemActionName, InputActionType.Button)
+                .AddBinding("<Gamepad>/dpad/right");
+            map.AddAction(LocalParticipantContext.UseItemActionName, InputActionType.Button)
+                .AddBinding("<Gamepad>/buttonWest");
+            map.AddAction(LocalParticipantContext.ToggleFlashlightActionName, InputActionType.Button)
+                .AddBinding("<Gamepad>/rightShoulder");
             asset.AddControlScheme(LocalParticipantContext.GamepadControlScheme)
                 .WithRequiredDevice("<Gamepad>");
             return asset;

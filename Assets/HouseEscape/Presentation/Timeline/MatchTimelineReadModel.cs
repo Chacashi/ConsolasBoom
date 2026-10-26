@@ -57,10 +57,16 @@ namespace HouseEscape.Presentation.Timeline
             }
 
             double timelineNow = Math.Max(snapshot.MatchStartedAt, synchronizedTime);
+            if (snapshot.IsComplete)
+            {
+                // A finished match (6 AM or an early outcome) freezes the clock at completion.
+                timelineNow = Math.Max(snapshot.MatchStartedAt, Math.Min(timelineNow, snapshot.CompletedAt));
+            }
+
             double elapsed = Math.Min(timelineNow - snapshot.MatchStartedAt, MatchClock.MatchDurationSeconds);
             double matchRemaining = Math.Max(0d, snapshot.MatchDeadline - timelineNow);
             bool transitionOccursBeforeDeadline = snapshot.PhaseEndsAt < snapshot.MatchDeadline;
-            double phaseRemaining = transitionOccursBeforeDeadline
+            double phaseRemaining = transitionOccursBeforeDeadline && !snapshot.IsComplete
                 ? Math.Max(0d, snapshot.PhaseEndsAt - timelineNow)
                 : 0d;
             bool warning = !snapshot.IsComplete

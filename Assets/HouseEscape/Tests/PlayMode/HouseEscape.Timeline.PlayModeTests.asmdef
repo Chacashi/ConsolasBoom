@@ -3,6 +3,7 @@
     "rootNamespace": "HouseEscape.Tests.PlayMode",
     "references": [
         "HouseEscape.Core",
+        "HouseEscape.Gameplay",
         "HouseEscape.Infrastructure",
         "HouseEscape.LocalMultiplayer",
         "HouseEscape.Networking",

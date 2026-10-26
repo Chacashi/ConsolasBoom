@@ -34,5 +34,19 @@ namespace HouseEscape.Tests.EditMode
             Assert.That(registry.TryRegister(7, 3, out _), Is.EqualTo(ParticipantRegistrationResult.Success));
             Assert.That(registry.TryRegister(8, 0, out _), Is.EqualTo(ParticipantRegistrationResult.MatchIsFull));
         }
+
+        [Test]
+        public void LooksUpByParticipantIdAndValidatesOwnerConnection()
+        {
+            var registry = new ParticipantRegistry();
+            registry.TryRegister(17, 0, out ParticipantRecord first);
+            registry.TryRegister(17, 1, out ParticipantRecord second);
+
+            Assert.That(registry.TryGet(second.Id, out ParticipantRecord found), Is.True);
+            Assert.That(found, Is.EqualTo(second));
+            Assert.That(registry.IsOwnedBy(first.Id, 17), Is.True);
+            Assert.That(registry.IsOwnedBy(first.Id, 18), Is.False);
+            Assert.That(registry.TryGet(new ParticipantId(999), out _), Is.False);
+        }
     }
 }

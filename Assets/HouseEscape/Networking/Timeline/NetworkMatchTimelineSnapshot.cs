@@ -13,6 +13,8 @@ namespace HouseEscape.Networking.Timeline
         public double MatchDeadline;
         public double PhaseEndsAt;
         public uint Revision;
+        public byte Outcome;
+        public double CompletedAt;
 
         public NetworkMatchTimelineSnapshot(MatchTimelineSnapshot snapshot)
         {
@@ -23,6 +25,8 @@ namespace HouseEscape.Networking.Timeline
             MatchDeadline = snapshot.MatchDeadline;
             PhaseEndsAt = snapshot.PhaseEndsAt;
             Revision = snapshot.Revision;
+            Outcome = (byte)snapshot.Outcome;
+            CompletedAt = snapshot.CompletedAt;
         }
 
         public MatchTimelineSnapshot ToCoreSnapshot()
@@ -34,7 +38,9 @@ namespace HouseEscape.Networking.Timeline
                 MatchStartedAt,
                 MatchDeadline,
                 PhaseEndsAt,
-                Revision);
+                Revision,
+                (MatchOutcome)Outcome,
+                CompletedAt);
         }
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
@@ -46,6 +52,8 @@ namespace HouseEscape.Networking.Timeline
             serializer.SerializeValue(ref MatchDeadline);
             serializer.SerializeValue(ref PhaseEndsAt);
             serializer.SerializeValue(ref Revision);
+            serializer.SerializeValue(ref Outcome);
+            serializer.SerializeValue(ref CompletedAt);
         }
 
         public bool Equals(NetworkMatchTimelineSnapshot other)
@@ -56,7 +64,9 @@ namespace HouseEscape.Networking.Timeline
                 && MatchStartedAt.Equals(other.MatchStartedAt)
                 && MatchDeadline.Equals(other.MatchDeadline)
                 && PhaseEndsAt.Equals(other.PhaseEndsAt)
-                && Revision == other.Revision;
+                && Revision == other.Revision
+                && Outcome == other.Outcome
+                && CompletedAt.Equals(other.CompletedAt);
         }
 
         public override bool Equals(object obj)
@@ -75,6 +85,8 @@ namespace HouseEscape.Networking.Timeline
                 hashCode = (hashCode * 397) ^ MatchDeadline.GetHashCode();
                 hashCode = (hashCode * 397) ^ PhaseEndsAt.GetHashCode();
                 hashCode = (hashCode * 397) ^ (int)Revision;
+                hashCode = (hashCode * 397) ^ Outcome;
+                hashCode = (hashCode * 397) ^ CompletedAt.GetHashCode();
                 return hashCode;
             }
         }

@@ -3,6 +3,7 @@
     "rootNamespace": "HouseEscape.Networking",
     "references": [
         "HouseEscape.Core",
+        "HouseEscape.Gameplay",
         "Unity.Netcode.Runtime"
     ],
     "includePlatforms": [],

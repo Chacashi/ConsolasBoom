@@ -59,5 +59,27 @@ namespace HouseEscape.Core.Participants
             participant = default;
             return false;
         }
+
+        public bool TryGet(ParticipantId participantId, out ParticipantRecord participant)
+        {
+            for (int index = 0; index < _records.Count; index++)
+            {
+                ParticipantRecord existing = _records[index];
+                if (existing.Id == participantId)
+                {
+                    participant = existing;
+                    return true;
+                }
+            }
+
+            participant = default;
+            return false;
+        }
+
+        public bool IsOwnedBy(ParticipantId participantId, ulong ownerClientId)
+        {
+            return TryGet(participantId, out ParticipantRecord participant)
+                && participant.OwnerClientId == ownerClientId;
+        }
     }
 }

@@ -7,11 +7,11 @@ It complements `Docs/GDD.md`; it does not replace game-design decisions.
 
 Current baseline:
 
-- Unity `6000.3.10f1`.
+- Unity `6000.3.20f1`.
 - Universal Render Pipeline `17.3.0`.
-- Input System `1.18.0`.
-- Netcode for GameObjects `1.11.0`.
-- AI Navigation `2.0.10`.
+- Input System `1.19.0`.
+- Netcode for GameObjects `2.13.0`.
+- AI Navigation `2.0.13`.
 - Unity Test Framework `1.6.0`.
 
 Do not update these dependencies as a side effect of feature work.

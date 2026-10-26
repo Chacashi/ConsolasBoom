@@ -3,10 +3,13 @@
     "rootNamespace": "HouseEscape.Infrastructure.Editor",
     "references": [
         "HouseEscape.Infrastructure",
+        "HouseEscape.Gameplay",
         "HouseEscape.LocalMultiplayer",
         "HouseEscape.Networking",
         "HouseEscape.Presentation",
+        "Unity.AI.Navigation",
         "Unity.Netcode.Runtime",
+        "Unity.Netcode.Components",
         "Unity.TextMeshPro",
         "Unity.InputSystem",
         "UnityEngine.UI"

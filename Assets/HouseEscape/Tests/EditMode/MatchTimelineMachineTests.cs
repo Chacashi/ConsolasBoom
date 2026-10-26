@@ -101,6 +101,52 @@ namespace HouseEscape.Tests.EditMode
             Assert.Throws<InvalidOperationException>(() => machine.Start(0d));
         }
 
+        [Test]
+        public void EndEarlyCompletesWithOutcomeAndMakesTheMatchInactive()
+        {
+            var machine = new MatchTimelineMachine(new MinimumDurationSampler());
+            Assert.That(machine.EndEarly(MatchOutcome.Defeat, 10d), Is.False, "A match that has not started cannot end.");
+            machine.Start(0d);
+            uint revision = machine.Snapshot.Revision;
+
+            Assert.That(machine.EndEarly(MatchOutcome.Defeat, 50d), Is.True);
+            Assert.That(machine.Snapshot.CompletedAt, Is.EqualTo(50d));
+
+            Assert.That(machine.Snapshot.IsComplete, Is.True);
+            Assert.That(machine.Snapshot.Outcome, Is.EqualTo(MatchOutcome.Defeat));
+            Assert.That(machine.Snapshot.Revision, Is.EqualTo(revision + 1u));
+            Assert.That(MatchTimelineAvailability.IsMatchActive(machine.Snapshot, 50d), Is.False);
+            Assert.That(machine.Advance(500d), Is.False, "A finished match no longer advances.");
+            Assert.That(machine.EndEarly(MatchOutcome.Defeat, 60d), Is.False);
+            Assert.Throws<ArgumentOutOfRangeException>(() => machine.EndEarly(MatchOutcome.None, 60d));
+        }
+
+        [Test]
+        public void ReachingSixAmCompletesInDefeat()
+        {
+            var machine = new MatchTimelineMachine(new MinimumDurationSampler());
+            machine.Start(0d);
+
+            machine.Advance(MatchClock.MatchDurationSeconds);
+
+            Assert.That(machine.Snapshot.IsComplete, Is.True);
+            Assert.That(machine.Snapshot.Outcome, Is.EqualTo(MatchOutcome.Defeat));
+            Assert.That(machine.Snapshot.CompletedAt, Is.EqualTo(machine.Snapshot.MatchDeadline));
+        }
+
+        [Test]
+        public void EndEarlyRejectsTimesBeforeStartAndAtOrAfterTheDeadline()
+        {
+            var machine = new MatchTimelineMachine(new MinimumDurationSampler());
+            machine.Start(100d);
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => machine.EndEarly(MatchOutcome.Defeat, 99d));
+            Assert.That(machine.EndEarly(MatchOutcome.Defeat, 100d + MatchClock.MatchDurationSeconds), Is.False,
+                "At 6 AM the timeline completes on its own without an outcome.");
+            Assert.That(machine.EndEarly(MatchOutcome.Defeat, 5000d), Is.False);
+            Assert.That(machine.Snapshot.IsComplete, Is.False);
+        }
+
         private sealed class MinimumDurationSampler : ILightPhaseDurationSampler
         {
             public List<LightPhaseDurationRange> RequestedRanges { get; } = new List<LightPhaseDurationRange>();

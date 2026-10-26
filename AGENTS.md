@@ -15,10 +15,10 @@ an unresolved game-design decision.
 
 ## Project Baseline
 
-- Unity `6000.3.10f1`.
+- Unity `6000.3.20f1`.
 - Console-only game using gamepads.
-- Input System `1.18.0`; legacy `UnityEngine.Input` is forbidden in new code.
-- Netcode for GameObjects `1.11.0` is mandatory.
+- Input System `1.19.0`; legacy `UnityEngine.Input` is forbidden in new code.
+- Netcode for GameObjects `2.13.0` is mandatory.
 - Online co-op and local split-screen must work together for 1-4 total participants.
 - The current `Assets/Scripts` implementation is prototype code and is mostly not wired to
   scenes or prefabs.

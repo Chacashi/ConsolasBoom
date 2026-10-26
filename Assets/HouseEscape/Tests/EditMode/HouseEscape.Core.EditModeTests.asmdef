@@ -3,7 +3,14 @@
     "rootNamespace": "HouseEscape.Tests.EditMode",
     "references": [
         "HouseEscape.Core",
-        "HouseEscape.Presentation"
+        "HouseEscape.Gameplay",
+        "HouseEscape.Infrastructure",
+        "HouseEscape.Networking",
+        "HouseEscape.Presentation",
+        "Unity.Netcode.Runtime",
+        "Unity.Netcode.Components",
+        "HouseEscape.LocalMultiplayer",
+        "Unity.InputSystem"
     ],
     "includePlatforms": [
         "Editor"

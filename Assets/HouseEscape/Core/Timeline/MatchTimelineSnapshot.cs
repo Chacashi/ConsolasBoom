@@ -11,7 +11,9 @@ namespace HouseEscape.Core.Timeline
             double matchStartedAt,
             double matchDeadline,
             double phaseEndsAt,
-            uint revision)
+            uint revision,
+            MatchOutcome outcome = MatchOutcome.None,
+            double completedAt = double.NaN)
         {
             IsStarted = isStarted;
             IsComplete = isComplete;
@@ -20,6 +22,9 @@ namespace HouseEscape.Core.Timeline
             MatchDeadline = matchDeadline;
             PhaseEndsAt = phaseEndsAt;
             Revision = revision;
+            Outcome = outcome;
+            // A completed snapshot without an explicit completion time ended at the deadline.
+            CompletedAt = isComplete ? (double.IsNaN(completedAt) ? matchDeadline : completedAt) : 0d;
         }
 
         public bool IsStarted { get; }
@@ -38,6 +43,12 @@ namespace HouseEscape.Core.Timeline
 
         public uint Revision { get; }
 
+        /// <summary>The outcome that ended the match early, or None.</summary>
+        public MatchOutcome Outcome { get; }
+
+        /// <summary>Server time at which the match completed (6 AM or an early outcome); zero while running.</summary>
+        public double CompletedAt { get; }
+
         public bool Equals(MatchTimelineSnapshot other)
         {
             return IsStarted == other.IsStarted
@@ -46,7 +57,9 @@ namespace HouseEscape.Core.Timeline
                 && MatchStartedAt.Equals(other.MatchStartedAt)
                 && MatchDeadline.Equals(other.MatchDeadline)
                 && PhaseEndsAt.Equals(other.PhaseEndsAt)
-                && Revision == other.Revision;
+                && Revision == other.Revision
+                && Outcome == other.Outcome
+                && CompletedAt.Equals(other.CompletedAt);
         }
 
         public override bool Equals(object obj)
@@ -65,6 +78,8 @@ namespace HouseEscape.Core.Timeline
                 hashCode = (hashCode * 397) ^ MatchDeadline.GetHashCode();
                 hashCode = (hashCode * 397) ^ PhaseEndsAt.GetHashCode();
                 hashCode = (hashCode * 397) ^ (int)Revision;
+                hashCode = (hashCode * 397) ^ (int)Outcome;
+                hashCode = (hashCode * 397) ^ CompletedAt.GetHashCode();
                 return hashCode;
             }
         }

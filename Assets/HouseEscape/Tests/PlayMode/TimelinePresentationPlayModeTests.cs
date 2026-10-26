@@ -21,12 +21,19 @@ namespace HouseEscape.Tests.PlayMode
         [UnityTearDown]
         public IEnumerator TearDownNetworkScene()
         {
-            if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening)
+            NetworkManager manager = NetworkManager.Singleton;
+            if (manager != null && manager.IsListening)
             {
-                NetworkManager.Singleton.Shutdown();
+                manager.Shutdown();
             }
 
             yield return null;
+
+            if (manager != null)
+            {
+                Object.Destroy(manager.gameObject);
+                yield return null;
+            }
 
             Scene gameScene = SceneManager.GetSceneByName("Game");
             if (gameScene.IsValid() && gameScene.isLoaded)

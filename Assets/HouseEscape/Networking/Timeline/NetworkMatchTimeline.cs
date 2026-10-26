@@ -73,6 +73,27 @@ namespace HouseEscape.Networking.Timeline
             _snapshot.Value = new NetworkMatchTimelineSnapshot(_machine.Snapshot);
         }
 
+        /// <summary>
+        /// Server-only: ends the running match early with an outcome. Completion makes the match
+        /// inactive for every consumer of <see cref="MatchTimelineAvailability"/> (generators
+        /// cancel, the monster sleeps, avatar input stops).
+        /// </summary>
+        public bool EndMatchOnServer(MatchOutcome outcome)
+        {
+            if (!IsSpawned || !IsServer || _machine == null)
+            {
+                throw new InvalidOperationException("Only a spawned server timeline can end the match.");
+            }
+
+            if (!_machine.EndEarly(outcome, _owningNetworkManager.ServerTime.Time))
+            {
+                return false;
+            }
+
+            _snapshot.Value = new NetworkMatchTimelineSnapshot(_machine.Snapshot);
+            return true;
+        }
+
         private void Update()
         {
             if (!IsSpawned || !IsServer || _machine == null)
